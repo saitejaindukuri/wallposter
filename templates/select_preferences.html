@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Preferences | WALLPOSTER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #000;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #ff1e1e;
+            letter-spacing: 2px;
+            margin-top: 30px;
+            animation: flicker 2s infinite;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.85; }
+        }
+
+        .user-info {
+            margin-top: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            color: white;
+            line-height: 1.6;
+        }
+
+        .username {
+            font-weight: 600;
+            color: white;
+        }
+
+        small {
+            color: #bbb;
+        }
+
+        .instruction {
+            margin-top: 40px;
+            font-size: 22px;
+            font-weight: 600;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .movie-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 40px;
+        }
+
+        .movie-card {
+            background-color: #111;
+            border-radius: 10px;
+            width: 160px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.2s ease;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.05);
+        }
+
+        .movie-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        .movie-card.selected {
+            box-shadow: 0 0 0 3px red;
+            transform: scale(1.05);
+        }
+
+        .movie-card img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            display: block;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .movie-title {
+            height: 55px;
+            padding: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            background-color: white;
+            color: black;
+            text-align: center;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            line-height: 1.2;
+        }
+
+        .continue-btn {
+            background-color: red;
+            color: white;
+            font-weight: bold;
+            padding: 12px 24px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .continue-btn:hover {
+            background-color: #cc0000;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="title">WALLPOSTER</div>
+
+    <div class="user-info">
+        ✅ Account created successfully!<br>
+        Welcome <span class="username">{{ name }}</span> — your user ID is: <b>{{ uid }}</b><br>
+        <small>(Save this ID to log in again)</small>
+    </div>
+
+    <div class="instruction">
+        {{ name|upper }}, select 3 or more movies you like
+    </div>
+
+    <form action="{{ url_for('submit_preferences') }}" method="post">
+        <div class="movie-grid">
+            {% for movie in movies %}
+            <div class="movie-card" onclick="toggleSelection(this)">
+                <img src="{{ movie.poster }}" alt="{{ movie.title }}">
+                <div class="movie-title">{{ movie.title }}</div>
+                <input type="checkbox" name="selected_movies" value="{{ movie.movie_id }}" hidden>
+            </div>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="continue-btn">Continue</button>
+    </form>
+
+    <script>
+        function toggleSelection(card) {
+            const checkbox = card.querySelector('input[type="checkbox"]');
+            card.classList.toggle('selected');
+            checkbox.checked = !checkbox.checked;
+        }
+    </script>
+
+</body>
+</html>

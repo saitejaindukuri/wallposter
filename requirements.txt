@@ -1,0 +1,4 @@
+flask
+pandas
+scikit-surprise
+werkzeug
