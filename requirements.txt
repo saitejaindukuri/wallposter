@@ -2,3 +2,4 @@ flask
 pandas
 scikit-surprise
 werkzeug
+numpy<2.0
