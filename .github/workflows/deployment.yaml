@@ -16,3 +16,10 @@ on:
 jobs:
   build-image:
     runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v4
+      with: 
+        ref: main
+    - name: print checked out
+      run: echo "checked out to main"
