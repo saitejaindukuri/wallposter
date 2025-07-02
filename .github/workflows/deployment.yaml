@@ -32,8 +32,8 @@ jobs:
       run: |
         docker --version
         docker info
-   # - name: build the docker image
-    #  run: docker build -t wallposter:latest .
+    - name: build the docker image
+      run: docker build -t wallposter:latest .
     - name: configure aws credentials
       uses: aws-actions/configure-aws-credentials@v2
       with:
